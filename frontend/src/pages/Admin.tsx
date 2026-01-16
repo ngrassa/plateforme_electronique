@@ -1,38 +1,33 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import AdminHeader from '../components/AdminHeader';
+import Sidebar from '../components/Sidebar';
+import Clients from './admin/Clients';
+import Dashboard from './admin/Dashboard';
+import InvoiceCreate from './admin/InvoiceCreate';
+import Invoices from './admin/Invoices';
+import Payments from './admin/Payments';
+import Settings from './admin/Settings';
 
 const Admin = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('demo_auth');
-    navigate('/login');
-  };
-
   return (
-    <div className="page">
-      <div className="card">
-        <h1>Tableau de bord</h1>
-        <p className="muted">
-          Vous etes connecte en tant qu&apos;administrateur (mode demo).
-        </p>
-        <div className="grid">
-          <div className="stat">
-            <span>Factures</span>
-            <strong>128</strong>
-          </div>
-          <div className="stat">
-            <span>Paiements</span>
-            <strong>54</strong>
-          </div>
-          <div className="stat">
-            <span>Clients</span>
-            <strong>23</strong>
-          </div>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#ffffff,_#e7ecf7,_#d9e1f1)]">
+      <div className="flex min-h-screen flex-col lg:flex-row">
+        <Sidebar />
+        <div className="flex flex-1 flex-col">
+          <AdminHeader />
+          <main className="flex-1 space-y-6 px-6 py-6">
+            <Routes>
+              <Route index element={<Dashboard />} />
+              <Route path="invoices" element={<Invoices />} />
+              <Route path="invoices/new" element={<InvoiceCreate />} />
+              <Route path="clients" element={<Clients />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="*" element={<Navigate to="/admin" replace />} />
+            </Routes>
+          </main>
         </div>
-        <button className="secondary" onClick={handleLogout}>
-          Se deconnecter
-        </button>
       </div>
     </div>
   );

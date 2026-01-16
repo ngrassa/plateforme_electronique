@@ -1,0 +1,80 @@
+import React, { useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const titleMap: Record<string, string> = {
+  '/admin': 'Dashboard',
+  '/admin/invoices': 'Factures',
+  '/admin/invoices/new': 'Nouvelle facture',
+  '/admin/clients': 'Clients',
+  '/admin/payments': 'Paiements',
+  '/admin/settings': 'Parametres',
+};
+
+const AdminHeader = () => {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const title = useMemo(
+    () => titleMap[location.pathname] || 'Dashboard',
+    [location.pathname]
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem('demo_auth');
+    navigate('/login');
+  };
+
+  return (
+    <header className="flex flex-col gap-4 border-b border-white/60 bg-white/70 px-6 py-5 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-ink-500">
+          Espace administrateur
+        </p>
+        <h1 className="font-display text-2xl font-semibold text-ink-900">
+          {title}
+        </h1>
+      </div>
+
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white px-4 py-3 text-left shadow-card"
+        >
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-ink-500 text-sm font-semibold text-white">
+            AD
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-slate-900">
+              Amel Dabbabi
+            </p>
+            <p className="text-xs text-slate-500">Administratrice</p>
+          </div>
+          <span className="text-xs text-slate-400">▾</span>
+        </button>
+
+        {open ? (
+          <div className="absolute right-0 mt-3 w-48 rounded-2xl border border-white/70 bg-white p-2 text-sm shadow-card">
+            <button
+              type="button"
+              onClick={() => navigate('/admin/settings')}
+              className="w-full rounded-xl px-3 py-2 text-left font-medium text-slate-600 hover:bg-slate-100"
+            >
+              Parametres
+            </button>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="w-full rounded-xl px-3 py-2 text-left font-medium text-rose-600 hover:bg-rose-50"
+            >
+              Se deconnecter
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </header>
+  );
+};
+
+export default AdminHeader;

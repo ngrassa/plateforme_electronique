@@ -22,33 +22,53 @@ const Login = () => {
   };
 
   return (
-    <div className="page">
-      <div className="card">
-        <h1>Connexion</h1>
-        <p className="muted">Acces administrateur (mode demo).</p>
-        <form onSubmit={handleSubmit} className="form">
-          <label>
+    <div className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_#ffffff,_#e7ecf7,_#d9e1f1)] px-6 py-10">
+      <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white p-8 shadow-card">
+        <div className="mb-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-500">
+            Portail admin
+          </p>
+          <h1 className="font-display text-2xl font-semibold text-ink-900">
+            Connexion
+          </h1>
+          <p className="text-sm text-slate-500">
+            Acces administrateur (mode demo).
+          </p>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="text-sm font-semibold text-slate-600">
             Email
             <input
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm"
             />
           </label>
-          <label>
+          <label className="text-sm font-semibold text-slate-600">
             Mot de passe
             <input
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm"
             />
           </label>
-          {error ? <div className="error">{error}</div> : null}
-          <button type="submit">Se connecter</button>
+          {error ? (
+            <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-semibold text-rose-600">
+              {error}
+            </div>
+          ) : null}
+          <button
+            type="submit"
+            className="w-full rounded-2xl bg-ink-500 px-4 py-3 text-sm font-semibold text-white shadow-soft"
+          >
+            Se connecter
+          </button>
         </form>
-        <div className="hint">
+        <div className="mt-6 rounded-2xl border border-ink-100 bg-ink-50 px-4 py-3 text-xs text-ink-700">
           Identifiants: <strong>{DEMO_EMAIL}</strong> /{' '}
           <strong>{DEMO_PASSWORD}</strong>
         </div>

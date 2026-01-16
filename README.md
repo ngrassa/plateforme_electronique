@@ -51,7 +51,7 @@ Une fois les services démarrés avec `docker compose up`, vous pouvez accéder 
 - **Keycloak (Authentification)**: http://localhost:8081
   - Administration: http://localhost:8081/admin
   - Login admin: `admin` / `admin`
-- **Eureka (placeholder)**: http://localhost:8761
+- **Eureka (Service Registry)**: http://localhost:8761
 - **Config Server**: http://localhost:8888
 
 ## Démarrage rapide
@@ -65,6 +65,57 @@ docker compose build
 
 # Démarrer avec Docker Compose
 docker compose up -d
+```
+
+Pour le frontend en mode dev, lancez dans un autre terminal :
+
+```bash
+cd frontend
+npm start
+```
+
+Pour le frontend en mode prod :
+
+```bash
+cd frontend
+npm run build
+```
+
+Puis (si vous utilisez Docker) :
+
+```bash
+docker compose up -d --build frontend
+```
+
+## Next steps (pour relancer proprement)
+
+1. Rebuild des services gateway/eureka/invoice/payment:
+
+```bash
+docker compose up -d --build api-gateway eureka-server invoice-service payment-service
+```
+
+2. Si les bases n’existent toujours pas (init script ne s’exécute qu’au 1er démarrage du volume):
+
+```bash
+docker exec -it plateforme-db psql -U plateforme_user -c "CREATE DATABASE invoice_db;"
+docker exec -it plateforme-db psql -U plateforme_user -c "CREATE DATABASE payment_db;"
+```
+
+3. Vérifier l’inscription Eureka: http://localhost:8761
+
+## Scaler des conteneurs Docker sans Kubernetes
+
+Il existe plusieurs méthodes pour scaler sans orchestrateur complexe.
+
+1. Docker Compose (le plus simple)
+
+```bash
+# Scaler un service à 3 instances
+docker-compose up -d --scale invoice-service=3
+
+# Scaler plusieurs services
+docker-compose up -d --scale invoice-service=3 --scale payment-service=2
 ```
 
 ## Développement
