@@ -1,5 +1,6 @@
 package com.plateforme.electronique.invoice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -77,6 +78,7 @@ public class Invoice {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<InvoiceItem> items;
 
     public enum Status {

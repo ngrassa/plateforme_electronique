@@ -1,6 +1,6 @@
 package com.plateforme.electronique.invoice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +27,7 @@ public class InvoiceItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "invoice_id", nullable = false)
     @NotNull(message = "Invoice is required")
-    @JsonIgnore
+    @JsonBackReference
     private Invoice invoice;
 
     @Column(nullable = false, length = 500)

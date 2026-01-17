@@ -1,0 +1,22 @@
+J’ai ajouté le seed et activé l’exécution de data.sql au démarrage.
+
+  Fichiers modifiés/ajoutés
+
+  - services/invoice-service/src/main/resources/application.yml (init SQL activée)
+  - services/payment-service/src/main/resources/application.yml (init SQL activée)
+  - services/invoice-service/src/main/resources/data.sql (2 factures + items)
+  - services/payment-service/src/main/resources/data.sql (2 paiements)
+
+  Tentative de rebuild
+
+  - La commande docker compose up -d --build invoice-service payment-service api-gateway a démarré, mais a dépassé le timeout côté outil pendant le téléchargement
+    des dépendances Maven. Le build était encore en cours.
+
+  Tu peux relancer côté terminal (sans limite de temps) :
+
+  docker compose up -d --build invoice-service payment-service api-gateway
+
+  Si tu veux aller plus vite, fais service par service :
+
+  docker compose build invoice-service payment-service
+  docker compose up -d invoice-service payment-service api-gateway
